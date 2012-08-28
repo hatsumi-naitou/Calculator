@@ -1,5 +1,6 @@
 package sample.application.calculator;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CaluculatorActivity extends Activity {
 	
@@ -101,6 +103,7 @@ public class CaluculatorActivity extends Activity {
 		((TextView)findViewById(R.id.displayPanel)).setText(fText);
    }
    
+   
    public void operatorKeyOnClick(View v){
 	   
 	   if(operator != 0){
@@ -120,8 +123,36 @@ public class CaluculatorActivity extends Activity {
 	   if(v.getId() == R.id.keypadEq){
 		   operator = 0;
 	   }else{
-		   operator = v.getID();
+		   operator = v.getId();
 	   }
+   }
+   
+   private String doCalc(){
+	   BigDecimal bd1 = new BigDecimal(strResult);
+	   BigDecimal bd2 = new BigDecimal(strTemp);
+	   BigDecimal result BigDecimal.ZERO;
+	   
+	   switch(operator){
+	   case R.id.keypadAdd:
+		   result = bd1.add(bd2);
+		   break;
+	   case R.id.keypadSub:
+		   result = bd1.subtract(bd2);
+		   break;
+	   case R.id.keypadMulti:
+		   result = bd1.multiply(bd2);
+		   break;
+	   case R.id.keypadDiv:
+		   if(!bd2.eauals(BigDecimal.ZERO)){
+			   result = bd1.divide(bd2, 12, 3);
+		   }else{
+			   Toast toast = Toast.makeText(this,R.string.toast_div_by_zero,1000);
+			   toast.show();
+		   }
+		   break;
+	   }
+	   
+	   
    }
    
     //では、加算するときにはどうしたらよいか？　と、考えてみた。
@@ -169,5 +200,7 @@ public class CaluculatorActivity extends Activity {
 		
 		public String num1 = new String();
 		public String strTemp = "";
+		public String strResult = "0";
+		public Integer operator = 0;
 	    
 }
