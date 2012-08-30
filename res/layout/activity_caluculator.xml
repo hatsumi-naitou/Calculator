@@ -28,6 +28,7 @@
 			<Button
 				android:id="@+id/keypadCopy"
 				android:text="Copy"
+				android:onClick="functionKeyOnClick"
 				android:padding="0dp"
 				android:textSize="24sp"
 				android:layout_height="match_parent"
@@ -36,6 +37,7 @@
 			<Button
 				android:id="@+id/keypadC"
 				android:text="C"
+				android:onClick="functionKeyOnClick"
 				android:padding="0dp"
 				android:textSize="24sp"
 				android:layout_height="match_parent"
@@ -44,6 +46,7 @@
 			<Button
 				android:id="@+id/keypadAC"
 				android:text="AC"
+				android:onClick="functionKeyOnClick"
 				android:padding="0dp"
 				android:textSize="24sp"
 				android:layout_height="match_parent"
@@ -52,6 +55,7 @@
 			<Button
 				android:id="@+id/keypadBS"
 				android:text="BS"
+				android:onClick="functionKeyOnClick"				
 				android:padding="0dp"
 				android:textSize="24sp"
 				android:layout_height="match_parent"

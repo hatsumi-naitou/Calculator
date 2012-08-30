@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.text.ClipboardManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+@SuppressWarnings("deprecation")
 public class CaluculatorActivity extends Activity {
 	
 	public String num1 = new String();
@@ -164,6 +166,27 @@ public class CaluculatorActivity extends Activity {
 	   
    }
    
+   public void functionKeyOnClick(View v){
+	   switch(v.getId()){
+	   case R.id.keypadAC:
+		   this.strTemp="";
+		   this.strResult="0";
+		   this.operator = 0;
+		   break;
+	   case R.id.keypadC:
+		   this.strTemp="";
+		   break;
+	   case R.id.keypadBS:
+		   if (strTemp.length() == 0)return;
+		   else this.strTemp = this.strTemp.substring(0, this.strTemp.length() - 1);
+		   break;
+	   case R.id.keypadCopy:
+		   ClipboardManager cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+		   cm.setText(((TextView)findViewById(R.id.displayPanel)).getText());
+		   return;
+	   }
+	   showNumber(this.strTemp);
+   }
    
     //では、加算するときにはどうしたらよいか？　と、考えてみた。
     /*私の表記はこちら。
