@@ -14,6 +14,11 @@ import android.widget.Toast;
 
 public class CaluculatorActivity extends Activity {
 	
+	public String num1 = new String();
+	public String strTemp = "";
+	public String strResult = "0";
+	public Integer operator = 0;
+	
 	/*CaluculatorActivityのインスタンスを作るタイミングは、
 	 * アンドロイドの仕様でマニフェストアクティビティの中にある、メインが実行されて
 	 * onCreateが実行される。その結果、インスタンスがぽこっとできる。
@@ -62,28 +67,27 @@ public class CaluculatorActivity extends Activity {
     	}*/
     
    public void numKeyOnClick(View v){    //ここはそもそもButtonじゃだめなのか？→メソッド名の指定をしているだけで引数の指定はしてない。andoroidはひとまず何でも持ってくる。それを抽象化されているのがViewクラス。なので。
-	   String strInKey = (String) ((Button)v).getText();   //CharSequenceじゃ？　でも、Stringを継承しているので。
+	   String strInKey = (String) ((Button)v).getText();   //CharSequenceじゃ？　そうだけど、でも、Stringを継承しているので。
 	   
 	   if(strInKey.equals(".")){    //"."はnewしてインスタンスを作っている。これは書き方がよくない！これは、".".equals(strInKey)と一緒。nullポインタエクセプションで悩まなくていい。
-		   	if(this.strTemp.length() ==0){
-		   		this.strTemp = "0.";
+		   	if(this.strTemp.length() == 0){		//押されたものがどっとで、入っている文字がないならば、
+		   		this.strTemp = "0.";	//0から始まる小数点の数値の開始。
 		   	}else{
 		   		if(this.strTemp.indexOf(".") == -1){
-		   			this.strTemp = this.strTemp + ".";
+		   			this.strTemp = this.strTemp + ".";	//押されたものがドットで、数字が入っているならば
 		   		}
 		   	}
 	   }else{
-		   this.strTemp = this.strTemp + strInKey;
-	   }
+		   this.strTemp = this.strTemp + strInKey;	//thisの中には、CaluculatorActivityのアドレスが入っている。インスタンスがある。
+	   }											//newされているのは、マニュフェストアクティビティ→メインメソッド→インスタンスがぽこっとできる
 	   
 	   //TODO　インスタンス変数わたしてます
-	   this.showNumber(this.strTemp);
-	   
+	   this.showNumber(this.strTemp);		//このshowNumberメソッドのおかしいところは？ → ？？
    }  
    
    
-   private void showNumber(String strNum){
-	   
+   private void showNumber(String strNum){		//自分のインスタンスの中でだけprivateは使えるため、インスタンスの外からは呼び出せない。onClickに使ったりすることはできない。
+	   											//少し例外があるが、基本的には自分のインスタンスでしか使えない。
 	   DecimalFormat form = new DecimalFormat("#,##0");    //この形で整形します（三桁ごとにカンマをつけます）頭に０がついていても見えないですよ。
 	   String strDecimal = "";
 	   String strInt = "";
@@ -107,32 +111,32 @@ public class CaluculatorActivity extends Activity {
    public void operatorKeyOnClick(View v){
 	   
 	   if(operator != 0){
-		   if(strTemp.length() > 0){
-			   strResult = doCalc();
-			   showNumber(strResult);
+		   if(this.strTemp.length() > 0){
+			   this.strResult = this.doCalc();
+			   this.showNumber(this.strResult);
 		   }
-	   }
-	   else {
-		   if(strTemp.length() > 0){
-			   strResult = strTemp;
+	   }else {
+		   if(this.strTemp.length() > 0){
+			   this.strResult = this.strTemp;
 		   }
 	   }
 	   
-	   strTemp = "";
+	   this.strTemp = "";
 	   
 	   if(v.getId() == R.id.keypadEq){
-		   operator = 0;
+		   this.operator = 0;					//イコールのときは、次に演算が行われることはないため、ゼロを代入しておく。
 	   }else{
-		   operator = v.getId();
+		   this.operator = v.getId();
 	   }
    }
    
    private String doCalc(){
-	   BigDecimal bd1 = new BigDecimal(strResult);
-	   BigDecimal bd2 = new BigDecimal(strTemp);
-	   BigDecimal result BigDecimal.ZERO;
+	   BigDecimal bd1 = new BigDecimal(this.strResult);
+	   BigDecimal bd2 = new BigDecimal(this.strTemp);
+	   BigDecimal result = BigDecimal.ZERO;					//BigDecimal型に定義されているクラス変数ZERO。
+	   														//public
 	   
-	   switch(operator){
+	   switch(this.operator){
 	   case R.id.keypadAdd:
 		   result = bd1.add(bd2);
 		   break;
@@ -143,17 +147,23 @@ public class CaluculatorActivity extends Activity {
 		   result = bd1.multiply(bd2);
 		   break;
 	   case R.id.keypadDiv:
-		   if(!bd2.eauals(BigDecimal.ZERO)){
+		   if(!bd2.equals(BigDecimal.ZERO)){
 			   result = bd1.divide(bd2, 12, 3);
 		   }else{
-			   Toast toast = Toast.makeText(this,R.string.toast_div_by_zero,1000);
+			   Toast toast = Toast.makeText(this, R.string.toast_div_by_zero, 1000);
 			   toast.show();
 		   }
 		   break;
 	   }
+	   if(result.toString().indexOf(".") >= 0){
+		   return result.toString().replaceAll("¥¥.0+$|0+$","");
+	   }else{
+		   return result.toString();
+	   }
 	   
 	   
    }
+   
    
     //では、加算するときにはどうしたらよいか？　と、考えてみた。
     /*私の表記はこちら。
@@ -196,11 +206,6 @@ public class CaluculatorActivity extends Activity {
 	    	//num1に保存した最初の数字を取得
 	    	//上二つを足す
 	    }
-	    
-		
-		public String num1 = new String();
-		public String strTemp = "";
-		public String strResult = "0";
-		public Integer operator = 0;
+
 	    
 }

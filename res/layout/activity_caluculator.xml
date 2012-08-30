@@ -95,6 +95,7 @@
 			<Button
 				android:id="@+id/keypadDiv"
 				android:text="/"
+				android:onClick="operatorKeyOnClick"
 				android:padding="0dp"
 				android:textSize="24sp"
 				android:layout_height="match_parent"
@@ -138,6 +139,7 @@
 			<Button
 				android:id="@+id/keypadMulti"
 				android:text="*"
+				android:onClick="operatorKeyOnClick"
 				android:padding="0dp"
 				android:textSize="24sp"
 				android:layout_height="match_parent"
@@ -181,6 +183,7 @@
 			<Button
 				android:id="@+id/keypadSub"
 				android:text="-"
+				android:onClick="operatorKeyOnClick"
 				android:padding="0dp"
 				android:textSize="24sp"
 				android:layout_height="match_parent"
@@ -206,6 +209,7 @@
 			<Button
 				android:id="@+id/keypadDot"
 				android:text="."
+				android:onClick="numKeyOnClick"
 				android:padding="0dp"
 				android:textSize="24sp"
 				android:layout_height="match_parent"
@@ -214,20 +218,22 @@
 			<Button
 				android:id="@+id/keypadEq"
 				android:text="="
-				android:onClick="equalKeyOnClick"
+				android:onClick="operatorKeyOnClick"
 				android:padding="0dp"
 				android:textSize="24sp"
 				android:layout_height="match_parent"
 				android:layout_width="wrap_content" />
+			<!-- android:onClick="equalKeyOnClick" -->
 				
 			<Button
 				android:id="@+id/keypadAdd"
 				android:text="+"
-				android:onClick="addKeyOnClick"
+				android:onClick="operatorKeyOnClick"
 				android:padding="0dp"
 				android:textSize="24sp"
 				android:layout_height="match_parent"
-				android:layout_width="wrap_content" />              
+				android:layout_width="wrap_content" />   
+				<!-- android:onClick="addKeyOnClick" -->           
 
         </TableRow>
         
