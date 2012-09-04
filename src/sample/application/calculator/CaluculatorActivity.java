@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.content.SharedPreferences;
+
 @SuppressWarnings("deprecation")
 public class CaluculatorActivity extends Activity {
 	
@@ -34,6 +36,8 @@ public class CaluculatorActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_caluculator);    //R.layoutの中のactivity_caluculatorをレイアウトとしてもってきますよ。
+
+        readPreferences();
     }
 
     @Override
@@ -230,5 +234,35 @@ public class CaluculatorActivity extends Activity {
 	    	//上二つを足す
 	    }
 
+/*　this が使えないときは？
+ * インスタンスができていない時点ではthisを使うことができないので
+ * クラス変数とクラスメソッドでは、使うことができない。（また、static修飾子のときもつかえない）*/	    
 	    
+	    void writePreferences(){
+	    	SharedPreferences prefs = getSharedPreferences("CalcPrefs", MODE_PRIVATE);
+	    	SharedPreferences.Editor editor = prefs.edit();
+	    	editor.putString("strTemp", strTemp);
+	    	editor.putString("strResult", strResult);
+	    	editor.putInt("operator", operator);
+	    	editor.putString("str" +
+	    			"Display", ((TextView)findViewById(R.id.displayPanel)).getText().toString());
+	    	editor.commit();
+	    }
+	    
+	    void readPreferences(){
+	    	SharedPreferences prefs = getSharedPreferences("CalcPrefs", MODE_PRIVATE);
+	    	strTemp = prefs.getString("strTemo", "");
+	    	strResult = prefs.getString("strResult", "0");
+	    	operator = prefs.getInt("operator", 0);
+	    	((TextView)findViewById(R.id.displayPanel)).setText(prefs.getString("strDisplay", "0"));
+	    }
+
+		@Override
+		protected void onStop() {
+			super.onStop();
+			writePreferences();
+		}
+	    
+	    	
 }
+	    
