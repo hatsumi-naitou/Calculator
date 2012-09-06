@@ -14,6 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import android.content.SharedPreferences;
+import android.os.Vibrator;
+
+
 
 @SuppressWarnings("deprecation")
 public class CaluculatorActivity extends Activity {
@@ -73,6 +76,9 @@ public class CaluculatorActivity extends Activity {
     	}*/
     
    public void numKeyOnClick(View v){    //ここはそもそもButtonじゃだめなのか？→メソッド名の指定をしているだけで引数の指定はしてない。andoroidはひとまず何でも持ってくる。それを抽象化されているのがViewクラス。なので。
+
+	   ((Vibrator)getSystemService(VIBRATOR_SERVICE)).vibrate(50);
+	   
 	   String strInKey = (String) ((Button)v).getText();   //CharSequenceじゃ？　そうだけど、でも、Stringを継承しているので。
 	   
 	   if(strInKey.equals(".")){    //"."はnewしてインスタンスを作っている。これは書き方がよくない！これは、".".equals(strInKey)と一緒。nullポインタエクセプションで悩まなくていい。
@@ -115,6 +121,9 @@ public class CaluculatorActivity extends Activity {
    
    
    public void operatorKeyOnClick(View v){
+
+	   ((Vibrator)getSystemService(VIBRATOR_SERVICE)).vibrate(50);
+	   
 	   
 	   if(operator != 0){
 		   if(this.strTemp.length() > 0){
@@ -171,6 +180,10 @@ public class CaluculatorActivity extends Activity {
    }
    
    public void functionKeyOnClick(View v){
+
+	   ((Vibrator)getSystemService(VIBRATOR_SERVICE)).vibrate(50);
+	   
+	   
 	   switch(v.getId()){
 	   case R.id.keypadAC:
 		   this.strTemp="";
